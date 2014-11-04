@@ -37,22 +37,22 @@ task :default => FINAL
 # TASK: run:
 desc "Compile and run #{FINAL.join(', ')}"
 task :run => OBJ + FINAL do
-    puts
-    FINAL.each { |exe| sh exe }
+  puts
+  FINAL.each { |exe| sh exe }
 end
 
 # TASK: debug:
 desc "Debug #{FINAL[0]}"
 task :debug => OBJ + FINAL do
-	sh "gdb #{FINAL[0]}"
+  sh "gdb #{FINAL[0]}"
 end
 
 # TASK: clean:
 desc "Remove all src/*.o and bin/*.exe files"
 task :clean do
-		OBJ.each { |obj| sh "rm -f #{obj}" if File.exist?(obj) }
-		EXE.each { |exe| sh "rm -f #{exe}" if File.exist?(exe) }
-		sh "rm -f *.log"
+  OBJ.each { |obj| sh "rm -f #{obj}" if File.exist?(obj) }
+  EXE.each { |exe| sh "rm -f #{exe}" if File.exist?(exe) }
+  sh "rm -f *.log"
 end
 
 # TASK: addclass:
@@ -89,12 +89,11 @@ end
 
 # RULE: how to create .o files (compile matching .cpp file):
 rule '.o' => '.cpp' do |t|
-    sh "#{CC} #{INCS} #{t.source} -c -o #{t.name} #{OPTS} #{LIBS}"
+  sh "#{CC} #{INCS} #{t.source} -c -o #{t.name} #{OPTS} #{LIBS}"
 end
 
 # RULE: how to create .exe files (compile all .o files):
 rule '.exe' => OBJ do |t|
-    sh "#{CC} #{INCS} #{OBJ} -o #{t.name} #{OPTS} #{LIBS}"
+  sh "#{CC} #{INCS} #{OBJ} -o #{t.name} #{OPTS} #{LIBS}"
 end
-
 
